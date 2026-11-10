@@ -1,0 +1,431 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 222 47% 4%;
+  --foreground: 210 40% 98%;
+  --border: 217 33% 17%;
+  --input: 217 33% 17%;
+  --ring: 224 76% 48%;
+  --primary: 221 83% 53%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 217 33% 17%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217 33% 17%;
+  --muted-foreground: 215 20% 65%;
+  --accent: 217 33% 17%;
+  --accent-foreground: 210 40% 98%;
+  --radius: 0.75rem;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: rgb(241, 245, 249);
+  background-color: #040711;
+  background-image: 
+    radial-gradient(circle at 50% 15%, rgba(6, 182, 212, 0.12) 0%, transparent 60%),
+    radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.09) 0%, transparent 50%),
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #090d16;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+/* ========================================================= */
+/* AI & FUTURE TECH EXPLORATION 3D PORTAL VIEWPORT           */
+/* ========================================================= */
+.viewport-3d {
+  perspective: 1700px;
+  perspective-origin: 50% 38%;
+  transform-style: preserve-3d;
+}
+
+.stage-3d {
+  transform-style: preserve-3d;
+  position: relative;
+  width: 100%;
+}
+
+.portal-pane {
+  transform-style: preserve-3d;
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity, filter;
+  width: 100%;
+}
+
+/* ========================================================= */
+/* JARVIS 3D SLIDE & SPATIAL PERSPECTIVE TRANSITIONS         */
+/* ========================================================= */
+
+/* 1. Normal Active Center View */
+.state-center {
+  transform: translate3d(0, 0, 0) rotateY(0deg) rotateX(0deg) scale(1) !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  position: relative;
+  filter: blur(0px) brightness(1);
+  z-index: 20;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
+}
+
+/* 2. JARVIS 3D Slide Change: Forward / Next Slide Exit */
+.jarvis-3d-exit-next {
+  animation: jarvisExitNext 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  pointer-events: none !important;
+  z-index: 5;
+}
+
+@keyframes jarvisExitNext {
+  0% {
+    transform: translate3d(0, 0, 0) rotateY(0deg) scale(1);
+    opacity: 1;
+    filter: blur(0px) brightness(1);
+  }
+  30% {
+    filter: blur(4px) brightness(1.8) drop-shadow(-8px 0 15px rgba(6, 182, 212, 0.8));
+  }
+  100% {
+    transform: translate3d(-140px, 15px, -850px) rotateY(-52deg) scale(0.55);
+    opacity: 0;
+    filter: blur(12px) brightness(2.5) drop-shadow(0 0 45px rgba(6, 182, 212, 0.9));
+  }
+}
+
+/* 3. JARVIS 3D Slide Change: Forward / Next Slide Enter */
+.jarvis-3d-enter-next {
+  animation: jarvisEnterNext 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+  position: relative;
+  z-index: 25;
+}
+
+@keyframes jarvisEnterNext {
+  0% {
+    transform: translate3d(140px, -15px, -850px) rotateY(52deg) scale(0.55);
+    opacity: 0;
+    filter: blur(12px) brightness(2.6) drop-shadow(8px 0 20px rgba(6, 182, 212, 0.9));
+  }
+  50% {
+    opacity: 0.9;
+    filter: blur(2px) brightness(1.4) drop-shadow(2px 0 10px rgba(6, 182, 212, 0.6));
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotateY(0deg) scale(1);
+    opacity: 1;
+    filter: blur(0px) brightness(1);
+  }
+}
+
+/* 4. JARVIS 3D Slide Change: Backward / Previous Slide Exit */
+.jarvis-3d-exit-prev {
+  animation: jarvisExitPrev 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  pointer-events: none !important;
+  z-index: 5;
+}
+
+@keyframes jarvisExitPrev {
+  0% {
+    transform: translate3d(0, 0, 0) rotateY(0deg) scale(1);
+    opacity: 1;
+    filter: blur(0px) brightness(1);
+  }
+  30% {
+    filter: blur(4px) brightness(1.8) drop-shadow(8px 0 15px rgba(168, 85, 247, 0.8));
+  }
+  100% {
+    transform: translate3d(140px, 15px, -850px) rotateY(52deg) scale(0.55);
+    opacity: 0;
+    filter: blur(12px) brightness(2.5) drop-shadow(0 0 45px rgba(168, 85, 247, 0.9));
+  }
+}
+
+/* 5. JARVIS 3D Slide Change: Backward / Previous Slide Enter */
+.jarvis-3d-enter-prev {
+  animation: jarvisEnterPrev 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+  position: relative;
+  z-index: 25;
+}
+
+@keyframes jarvisEnterPrev {
+  0% {
+    transform: translate3d(-140px, -15px, -850px) rotateY(-52deg) scale(0.55);
+    opacity: 0;
+    filter: blur(12px) brightness(2.6) drop-shadow(-8px 0 20px rgba(168, 85, 247, 0.9));
+  }
+  50% {
+    opacity: 0.9;
+    filter: blur(2px) brightness(1.4) drop-shadow(-2px 0 10px rgba(168, 85, 247, 0.6));
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotateY(0deg) scale(1);
+    opacity: 1;
+    filter: blur(0px) brightness(1);
+  }
+}
+
+/* Legacy warp fallback compatibility */
+.ai-warp-recede { @apply jarvis-3d-exit-next; }
+.ai-holo-converge { @apply jarvis-3d-enter-next; }
+.ai-warp-pan-left { @apply jarvis-3d-exit-prev; }
+.ai-holo-slide-enter { @apply jarvis-3d-enter-prev; }
+
+/* ========================================================= */
+/* JARVIS HUD ROTATING ARCS & ARC-REACTOR CORE KEYFRAMES     */
+/* ========================================================= */
+@keyframes jarvisSpinCw {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes jarvisSpinCcw {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+.jarvis-spin-cw {
+  animation: jarvisSpinCw 12s linear infinite;
+  transform-origin: center center;
+}
+
+.jarvis-spin-cw-fast {
+  animation: jarvisSpinCw 4.5s linear infinite;
+  transform-origin: center center;
+}
+
+.jarvis-spin-ccw {
+  animation: jarvisSpinCcw 9s linear infinite;
+  transform-origin: center center;
+}
+
+.jarvis-spin-ccw-fast {
+  animation: jarvisSpinCcw 3.5s linear infinite;
+  transform-origin: center center;
+}
+
+@keyframes jarvisCorePulse {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 12px rgba(6, 182, 212, 0.8)); opacity: 0.85; }
+  50% { transform: scale(1.12); filter: drop-shadow(0 0 35px rgba(6, 182, 212, 1)); opacity: 1; }
+}
+.jarvis-core-pulse {
+  animation: jarvisCorePulse 1.8s ease-in-out infinite;
+  transform-origin: center center;
+}
+
+@keyframes jarvisArcShockwave {
+  0% { transform: scale(0.35); opacity: 0.9; }
+  60% { opacity: 0.6; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+.jarvis-arc-shockwave {
+  animation: jarvisArcShockwave 2s cubic-bezier(0.2, 0.8, 0.4, 1) infinite;
+  transform-origin: center center;
+}
+
+/* Holographic Laser Scanner Line Sweep */
+.holo-scanner-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, #22d3ee, #38bdf8, #a855f7, #ec4899, transparent);
+  box-shadow: 0 0 25px #06b6d4, 0 0 50px #38bdf8, 0 0 80px rgba(236, 72, 153, 0.6);
+  pointer-events: none;
+  z-index: 40;
+  animation: scanlineSweep 0.95s cubic-bezier(0.2, 0.8, 0.4, 1) forwards;
+}
+
+@keyframes scanlineSweep {
+  0% { top: 0%; opacity: 0; }
+  15% { opacity: 1; height: 6px; }
+  75% { opacity: 0.95; height: 4px; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* Hologram Scanning Grid Overlay during Transition */
+.holo-grid-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 45;
+  background-image: 
+    repeating-linear-gradient(0deg, rgba(6, 182, 212, 0.07) 0px, transparent 1px, transparent 3px),
+    linear-gradient(90deg, rgba(6, 182, 212, 0.04) 1px, transparent 1px);
+  background-size: 100% 3px, 40px 100%;
+  animation: holoGridFlicker 0.95s ease-out forwards;
+}
+
+@keyframes holoGridFlicker {
+  0% { opacity: 0; transform: scaleY(0.98); }
+  20% { opacity: 0.9; }
+  40% { opacity: 0.6; }
+  60% { opacity: 0.85; }
+  85% { opacity: 0.4; }
+  100% { opacity: 0; transform: scaleY(1); }
+}
+
+/* Chromatic Holographic Emitter Shimmer */
+.holo-chromatic-shimmer {
+  animation: holoChromaticShift 0.8s ease-in-out forwards;
+}
+
+@keyframes holoChromaticShift {
+  0% {
+    filter: drop-shadow(-5px 0 0 rgba(6, 182, 212, 0.8)) drop-shadow(5px 0 0 rgba(236, 72, 153, 0.8));
+    transform: skewX(-1.5deg);
+  }
+  30% {
+    filter: drop-shadow(3px 0 0 rgba(6, 182, 212, 0.6)) drop-shadow(-3px 0 0 rgba(236, 72, 153, 0.6));
+    transform: skewX(1deg);
+  }
+  60% {
+    filter: drop-shadow(-1px 0 0 rgba(6, 182, 212, 0.4)) drop-shadow(1px 0 0 rgba(236, 72, 153, 0.4));
+    transform: skewX(-0.5deg);
+  }
+  100% {
+    filter: none;
+    transform: skewX(0deg);
+  }
+}
+
+.deck-hidden {
+  display: none !important;
+}
+
+/* ========================================================= */
+/* CONTINUOUS SCROLL-DRIVEN 3D TRANSITION BASE STYLING       */
+/* ========================================================= */
+.scroll-3d-wrapper {
+  perspective: 1400px;
+  transform-style: preserve-3d;
+}
+
+.scroll-3d-card {
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease;
+}
+
+.scroll-3d-card:hover {
+  box-shadow: 0 25px 50px -12px rgba(6, 182, 212, 0.35);
+}
+
+/* Neon Tab Glows */
+.active-tab-glow-cyan {
+  background: rgba(6, 182, 212, 0.15) !important;
+  border: 1.5px solid #06b6d4 !important;
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.5), inset 0 0 12px rgba(6, 182, 212, 0.25) !important;
+}
+.active-tab-glow-emerald {
+  background: rgba(16, 185, 129, 0.15) !important;
+  border: 1.5px solid #10b981 !important;
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.5), inset 0 0 12px rgba(16, 185, 129, 0.25) !important;
+}
+.active-tab-glow-violet {
+  background: rgba(168, 85, 247, 0.18) !important;
+  border: 1.5px solid #a855f7 !important;
+  box-shadow: 0 0 22px rgba(168, 85, 247, 0.55), inset 0 0 12px rgba(236, 72, 153, 0.3) !important;
+}
+
+/* Glassmorphism Surfaces */
+.glass-hud {
+  background: rgba(11, 18, 32, 0.74);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
+}
+
+/* Themed Textures */
+.chalkboard-bg {
+  background-color: #071712;
+  background-image: 
+    radial-gradient(circle at 50% 30%, rgba(16, 185, 129, 0.15) 0%, transparent 70%),
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 100% 100%, 28px 28px, 28px 28px;
+}
+
+.telephony-bg {
+  background-color: #0e0a1f;
+  background-image: 
+    radial-gradient(circle at 50% 30%, rgba(168, 85, 247, 0.16) 0%, transparent 70%),
+    radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.12) 0%, transparent 60%),
+    linear-gradient(rgba(168, 85, 247, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(168, 85, 247, 0.04) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
+}
+
+/* 3D Animations */
+@keyframes float3D {
+  0%, 100% { transform: translateY(0px) translateZ(15px); }
+  50% { transform: translateY(-8px) translateZ(28px); }
+}
+.animate-float-3d { animation: float3D 4s ease-in-out infinite; }
+
+@keyframes orbitSpin1 {
+  from { transform: rotateX(65deg) rotateY(0deg) rotateZ(0deg); }
+  to { transform: rotateX(65deg) rotateY(360deg) rotateZ(360deg); }
+}
+@keyframes orbitSpin2 {
+  from { transform: rotateX(-65deg) rotateY(0deg) rotateZ(0deg); }
+  to { transform: rotateX(-65deg) rotateY(360deg) rotateZ(360deg); }
+}
+.animate-orbit-1 { animation: orbitSpin1 6s linear infinite; }
+.animate-orbit-2 { animation: orbitSpin2 8s linear infinite reverse; }
+
+@keyframes soundEqualizer {
+  0%, 100% { height: 6px; }
+  50% { height: 26px; }
+}
+.eq-bar-1 { animation: soundEqualizer 0.8s ease-in-out infinite 0.1s; }
+.eq-bar-2 { animation: soundEqualizer 0.9s ease-in-out infinite 0.4s; }
+.eq-bar-3 { animation: soundEqualizer 0.7s ease-in-out infinite 0.2s; }
+.eq-bar-4 { animation: soundEqualizer 1.1s ease-in-out infinite 0.6s; }
+.eq-bar-5 { animation: soundEqualizer 0.85s ease-in-out infinite 0.3s; }
+.eq-bar-6 { animation: soundEqualizer 1.0s ease-in-out infinite 0.5s; }
+
+@keyframes radarPulse {
+  0% { transform: scale(0.7); opacity: 0.9; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+.animate-radar-wave { animation: radarPulse 2.5s cubic-bezier(0.2, 0.8, 0.4, 1) infinite; }
+
+.neon-track {
+  stroke-dasharray: 8 6;
+  animation: dashPulse 25s linear infinite;
+}
+@keyframes dashPulse { to { stroke-dashoffset: -1000; } }
+
+@keyframes scrollCueBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
+}
+.animate-scroll-cue { animation: scrollCueBounce 2s ease-in-out infinite; }

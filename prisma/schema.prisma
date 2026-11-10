@@ -1,0 +1,168 @@
+// Prisma Schema for MGSolutions Enterprise Multi-Division Platform
+// Supports PostgreSQL (production) or SQLite (local development)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite" // Change to "postgresql" for production deployment
+  url      = env("DATABASE_URL")
+}
+
+// User Roles Enum
+enum Role {
+  STUDENT
+  ADMIN
+}
+
+// Divisions / Tabs Enum
+enum Division {
+  ORGINTECH
+  EDTECH
+  BBS
+}
+
+// Content Category Enum
+enum ContentCategory {
+  SERVICE
+  CASE_STUDY
+  COURSE_MODULE
+  ARTICLE
+  RESOURCE
+}
+
+// Event Type / Category Enum
+enum EventCategory {
+  HACKATHON
+  BOOTCAMP
+  SEMINAR
+  WEBINAR
+  WORKSHOP
+}
+
+// Event Status Enum
+enum EventStatus {
+  UPCOMING
+  ONGOING
+  COMPLETED
+  CANCELLED
+}
+
+// Registration Status
+enum RegistrationStatus {
+  CONFIRMED
+  WAITLISTED
+  ATTENDED
+  CANCELLED
+}
+
+model User {
+  id               String              @id @default(uuid())
+  name             String
+  email            String              @unique
+  passwordHash     String?
+  role             Role                @default(STUDENT)
+  avatar           String?
+  bio              String?
+  divisionInterest Division?           @default(ORGINTECH)
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+
+  // Relationships
+  registrations    EventRegistration[]
+  enrollments      CourseEnrollment[]
+  createdContents  ContentItem[]       @relation("AdminCreatedContent")
+  createdEvents    Event[]             @relation("AdminCreatedEvents")
+
+  @@map("users")
+}
+
+model ContentItem {
+  id          String          @id @default(uuid())
+  division    Division
+  title       String
+  slug        String          @unique
+  summary     String
+  content     String
+  category    ContentCategory
+  authorName  String          @default("MGSolutions Editorial")
+  authorId    String?
+  coverImage  String?
+  tags        String          // Stored as JSON or comma-separated
+  readTime    String?         @default("5 min read")
+  isFeatured  Boolean         @default(false)
+  isPublished Boolean         @default(true)
+  metadata    String?         // Extra JSON attributes (e.g. syllabus, tech stack)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  author      User?           @relation("AdminCreatedContent", fields: [authorId], references: [id])
+
+  @@index([division, category])
+  @@map("content_items")
+}
+
+model Event {
+  id              String              @id @default(uuid())
+  division        Division
+  title           String
+  description     String
+  category        EventCategory
+  eventDate       DateTime
+  duration        String              @default("2 Hours")
+  location        String              @default("Virtual (Live Stream)")
+  isVirtual       Boolean             @default(true)
+  meetingUrl      String?
+  speaker         String
+  speakerRole     String?
+  coverImage      String?
+  maxAttendees    Int                 @default(100)
+  registeredCount Int                 @default(0)
+  status          EventStatus         @default(UPCOMING)
+  isFeatured      Boolean             @default(false)
+  createdById     String?
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+
+  createdBy       User?               @relation("AdminCreatedEvents", fields: [createdById], references: [id])
+  registrations   EventRegistration[]
+
+  @@index([division, status])
+  @@map("events")
+}
+
+model EventRegistration {
+  id               String             @id @default(uuid())
+  eventId          String
+  userId           String
+  userName         String
+  userEmail        String
+  userRole         Role               @default(STUDENT)
+  division         Division
+  registrationDate DateTime           @default(now())
+  status           RegistrationStatus @default(CONFIRMED)
+  notes            String?
+
+  event            Event              @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  user             User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([eventId, userId])
+  @@index([division])
+  @@map("event_registrations")
+}
+
+model CourseEnrollment {
+  id             String    @id @default(uuid())
+  userId         String
+  courseId       String
+  courseTitle    String
+  progress       Int       @default(0)
+  enrolledAt     DateTime  @default(now())
+  lastActivityAt DateTime  @default(now())
+
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, courseId])
+  @@map("course_enrollments")
+}
